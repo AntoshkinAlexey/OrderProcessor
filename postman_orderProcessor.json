@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "1f649609-b2b5-4cd5-8ab3-5b872c16f284",
+		"name": "Сервис авторизации пользователя",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27652861"
+	},
+	"item": [
+		{
+			"name": "Создание пользователя",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"login2\",\r\n    \"email\": \"emai2@mail.ru\",\r\n    \"password_hash\": \"password2\",\r\n    \"role\": \"chef\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				},
+				"description": "```\nНеобходимо передать в теле запроса никнейм, почту, пароль, роль.\nВ случае успешной регистрации возвращается статус 200 с соответствующим сообщением.\nВ случае некорректно переданных данных возвращается статус 400 с сообщением о некорректности какого-либо поля.\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Вход пользователя в систему",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"emai2@mail.ru\",\r\n    \"password_hash\": \"password2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signin"
+					]
+				},
+				"description": "```\nНеобходимо в теле запроса передать почту и пароль.\nВ случае нахождения пользователя в БД с указанными почтой и паролем, возвращается статус 200 с созданными токенами.\nВ случае ошибки возвращается статус 400 с указанием ошибки.\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Получение информации о пользователе по токену",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbjIiLCJleHAiOjE2ODUzMjE3MjYsInJvbGUiOiJjaGVmIn0.C9AxyBnzDlk5ffi4eR_cucd5zYyu7Ivw_8CK1JLqW_Jvp9a3hawB1CUmTX3bI-oba-L6qK4JflPAJ27xi6xfLw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				},
+				"description": "```\nНеобходимо в заголовке Авторизации передать access токен в качестве Bearer токена.\nВ случае успеха возвращается статус 200 с информацией о пользователе.\nВ случае ошибки возвращается статус 401 с указанием ошибки.\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Создание нового access токена по refresh токену",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbjIiLCJleHAiOjE2ODc5MTM1MzJ9.dVmPxieHNptUM0uTE79Z8h0PU3HwuhkhpavvLPjGpXOsFwD1xnvzvwBGnQ58VDMgxKE8ogqy7FOrjkLYPiOEFw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"token"
+					]
+				},
+				"description": "```\nНеобходимо в теле запроса передать refresh токен пользователя.\nВ случае успеха возвращается статус 200 с новым access токеном.\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Создание новой пары  токенов по refresh токену",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbjIiLCJleHAiOjE2ODUzMjE4MzksInJvbGUiOiJjaGVmIn0.wHeNJko9_adK-Fu8wFx2tpQXQQfN_vSdurT7lTuYeDe8dw7_Wh6BTkVZ7k30ox9OSUhlCf5FEr-nMQ9PMyvbNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb2dpbjIiLCJleHAiOjE2ODc5MTM1MzJ9.dVmPxieHNptUM0uTE79Z8h0PU3HwuhkhpavvLPjGpXOsFwD1xnvzvwBGnQ58VDMgxKE8ogqy7FOrjkLYPiOEFw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"refresh"
+					]
+				},
+				"description": "```\nНеобходимо в теле запроса передать refresh токен пользователя.\nВ случае успеха возвращается статус 200 с новой парой токенов.\nВ случае ошибки возвращается статус 401 с указанием ошибки.\n```"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
